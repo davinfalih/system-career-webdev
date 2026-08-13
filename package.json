@@ -1,12 +1,12 @@
 {
-  "name": "career-system",
+  "name": "jobmatch",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "ESLINT_USE_FLAT_CONFIG=true eslint app components lib helper types"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.5.7",

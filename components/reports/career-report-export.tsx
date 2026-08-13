@@ -31,7 +31,7 @@ function CareerReport({ data }: { data: ReportData }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text style={styles.brand}>Career System</Text>
+          <Text style={styles.brand}>JobMatch</Text>
           <Text style={styles.title}>Career Summary Report</Text>
           <Text style={styles.muted}>
             Dihasilkan: {new Intl.DateTimeFormat("id-ID", { dateStyle: "long" }).format(new Date(data.generatedAt))}

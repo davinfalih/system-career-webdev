@@ -93,10 +93,20 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* PublicHeader HARUS jadi sibling top-level (bukan di-nest di dalam div
+          bertinggi terbatas) supaya position:sticky-nya mengikuti scroll SELURUH
+          halaman, bukan cuma setinggi hero. */}
       <PublicHeader />
 
       {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-brand-50 via-white to-white">
+      <section className="relative overflow-hidden">
+        {/* Layer gradient dekoratif ditarik ke atas (-top-28) supaya menutupi
+            area di belakang header yang transparan — menghindari jahitan putih
+            tanpa perlu membungkus header dalam div bertinggi terbatas. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 -top-28 -z-10 h-[calc(100%+7rem)] bg-gradient-to-b from-rose-100 via-white to-white"
+        />
         <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-200/40 blur-3xl" />
         <div className="pointer-events-none absolute top-40 -left-32 h-80 w-80 rounded-full bg-rose-200/40 blur-3xl" />
         <div className="container-page relative py-20 lg:py-28">
@@ -109,7 +119,7 @@ export default async function HomePage() {
               Temukan Karier & Magang <span className="text-gradient">Impianmu</span> dengan Kecerdasan Buatan
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600">
-              Career System membantu pelajar, mahasiswa, dan fresh graduate terhubung dengan ribuan
+              JobMatch membantu pelajar, mahasiswa, dan fresh graduate terhubung dengan ribuan
               lowongan dari perusahaan terbaik Indonesia. Analisis CV-mu, tingkatkan skill, dan lamar dengan satu klik.
             </p>
 
@@ -284,7 +294,7 @@ export default async function HomePage() {
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold">Apa Kata <span className="text-gradient">Mereka?</span></h2>
-            <p className="mt-4 text-zinc-600">Cerita nyata dari pengguna yang sudah merasakan manfaat Career System.</p>
+            <p className="mt-4 text-zinc-600">Cerita nyata dari pengguna yang sudah merasakan manfaat JobMatch.</p>
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {testimonials.map((t) => (
@@ -355,7 +365,7 @@ export default async function HomePage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold">Email</p>
-                    <p className="text-sm text-zinc-500">halo@careersystem.id</p>
+                    <p className="text-sm text-zinc-500">halo@jobmatch.id</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 rounded-xl border border-zinc-100 p-4 shadow-card">
@@ -370,7 +380,7 @@ export default async function HomePage() {
               </div>
             </div>
             <form
-              action="mailto:halo@careersystem.id"
+              action="mailto:halo@jobmatch.id"
               method="post"
               encType="text/plain"
               className="card space-y-4 p-7"

@@ -11,7 +11,7 @@ export type SessionUser = {
   name: string;
 };
 
-const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET ?? "career-system-dev-secret-change-in-production");
+const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET ?? "jobmatch-dev-secret-change-in-production");
 
 export async function getSessionToken(): Promise<string | null> {
   const store = await cookies();

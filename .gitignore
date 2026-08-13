@@ -31,9 +31,9 @@ yarn-error.log*
 !*.env.example
 
 # nestjs backend
-server/node_modules
-server/dist
-server/public/uploads
+Backend/node_modules
+Backend/dist
+Backend/public/uploads
 
 # local database & backups
 dev.db

@@ -17,8 +17,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Career System - Platform Karir & Magang untuk Mahasiswa",
-    template: "%s | Career System",
+    default: "JobMatch - Platform Karir & Magang untuk Mahasiswa",
+    template: "%s | JobMatch",
   },
   description:
     "Temukan lowongan kerja dan magang terbaik, analisis CV dengan AI, dan dapatkan rekomendasi karir untuk mahasiswa dan fresh graduate.",

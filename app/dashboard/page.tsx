@@ -112,7 +112,7 @@ export default async function StudentDashboardPage() {
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-extrabold sm:text-3xl">
-            Halo, {user.name.split(" ")[0]}! 👋
+            Halo, {user.name.split(" ")[0]}! 
           </h1>
           <p className="mt-1 text-sm text-zinc-500">
             Siap meningkatkan kariermu hari ini? Berikut ringkasan progresmu.

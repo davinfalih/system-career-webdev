@@ -40,7 +40,7 @@ export default async function AdminDashboardPage() {
       <div>
         <h1 className="text-2xl font-extrabold sm:text-3xl">Ringkasan Platform</h1>
         <p className="mt-1 text-sm text-zinc-500">
-          Pantau pertumbuhan pengguna, institusi, dan lowongan di Career System.
+          Pantau pertumbuhan pengguna, institusi, dan lowongan di JobMatch.
         </p>
       </div>
 

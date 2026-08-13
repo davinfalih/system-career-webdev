@@ -2,8 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Loader2, Mail, Lock, User, School, Building2 } from "lucide-react";
+import { Loader2, Mail, User, School, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PasswordInput } from "@/components/ui/password-input";
 
 type Institution = { id: string; name: string; type: string };
 
@@ -142,10 +143,14 @@ export function RegisterForm({ institutions }: { institutions: Institution[] }) 
 
         <div>
           <label className="label">Password</label>
-          <div className={fieldCls}>
-            <Lock className="h-4 w-4 shrink-0 text-zinc-400" />
-            <input required type="password" minLength={6} value={form.password} onChange={(e) => update("password", e.target.value)} placeholder="Minimal 6 karakter" className="w-full bg-transparent py-2.5 text-sm focus:outline-none" />
-          </div>
+          <PasswordInput
+            value={form.password}
+            onChange={(v) => update("password", v)}
+            placeholder="Minimal 6 karakter"
+            required
+            minLength={6}
+            autoComplete="new-password"
+          />
         </div>
       </div>
 
@@ -163,23 +168,15 @@ export function RegisterForm({ institutions }: { institutions: Institution[] }) 
             </select>
           </div>
 
-          <div className="text-center text-xs text-zinc-400">— atau tambahkan sendiri —</div>
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div>
-              <label className="label">Nama Institusi (opsional)</label>
-              <input value={form.institutionName} onChange={(e) => update("institutionName", e.target.value)} placeholder="SMK / Universitas" className={inputCls} />
-            </div>
-            <div>
-              <label className="label">Tipe Institusi</label>
-              <select value={form.institutionType} onChange={(e) => update("institutionType", e.target.value)} className={inputCls}>
-                <option>SMK</option>
-                <option>SMA</option>
-                <option>VOCATIONAL</option>
-                <option>POLYTECHNIC</option>
-                <option>UNIVERSITY</option>
-              </select>
-            </div>
+          <div>
+            <label className="label">Tipe Institusi</label>
+            <select value={form.institutionType} onChange={(e) => update("institutionType", e.target.value)} className={inputCls}>
+              <option>SMK</option>
+              <option>SMA</option>
+              <option>VOCATIONAL</option>
+              <option>POLYTECHNIC</option>
+              <option>UNIVERSITY</option>
+            </select>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">

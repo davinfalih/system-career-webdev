@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { Briefcase, CheckCircle2, Loader2, Lock } from "lucide-react";
+import { CheckCircle2, Loader2, Lock } from "lucide-react";
 import { PublicFooter } from "@/components/layout/public-footer";
+import { Logo } from "@/components/ui/logo";
 
 function ResetForm() {
   const router = useRouter();
@@ -120,11 +121,9 @@ export default function ResetPasswordPage() {
       <header className="border-b border-zinc-100 bg-white/80 backdrop-blur">
         <div className="container-page flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600">
-              <Briefcase className="h-5 w-5 text-white" />
-            </div>
+            <Logo size="sm" />
             <span className="text-lg font-bold">
-              Career<span className="text-gradient">System</span>
+              Job<span className="text-gradient">Match</span>
             </span>
           </Link>
           <Link href="/" className="text-sm font-medium text-zinc-500 hover:text-brand-700">
