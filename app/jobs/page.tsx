@@ -51,8 +51,8 @@ export default async function JobsPage({
   const query = params.toString();
 
   const { data } = await apiFetch(`/jobs${query ? `?${query}` : ""}`);
-  const jobs = data.jobs;
-  const totalJobs = data.totalJobs;
+  const jobs = Array.isArray(data?.jobs) ? data.jobs : [];
+  const totalJobs = data?.totalJobs ?? jobs.length;
 
   return (
     <>

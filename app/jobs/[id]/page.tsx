@@ -34,17 +34,17 @@ const MODE_LABELS: Record<string, string> = {
 export default async function JobDetailPage({ params }: { params: { id: string } }) {
   const { data } = await serverApi(`/jobs/${params.id}`);
 
-  const job = data.job;
+  const job = data?.job;
 
   if (!job || job.status !== "OPEN") notFound();
 
   const mustHave = job.mustHaveSkills ?? [];
   const niceHave = job.niceToHaveSkills ?? [];
 
-  const matchScore = data.matchScore;
-  const alreadyApplied = data.applied;
-  const bookmarked = data.bookmarked;
-  const similar = data.similar;
+  const matchScore = data?.matchScore;
+  const alreadyApplied = data?.applied;
+  const bookmarked = data?.bookmarked;
+  const similar = Array.isArray(data?.similar) ? data.similar : [];
 
   return (
     <>

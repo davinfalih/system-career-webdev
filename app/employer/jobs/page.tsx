@@ -9,7 +9,7 @@ export default async function EmployerJobsPage() {
   if (!user || !user.companyId) return null;
 
   const { data } = await serverApi("/employer/jobs");
-  const jobs = data.jobs;
+  const jobs = Array.isArray(data?.jobs) ? data.jobs : [];
 
   const serialized = jobs.map((j) => ({
     id: j.id,

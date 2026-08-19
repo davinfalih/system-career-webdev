@@ -9,7 +9,7 @@ export default async function VerificationPage() {
   if (!user || !user.institutionId) return null;
 
   const { data } = await serverApi("/institution/students");
-  const students = data.students;
+  const students = Array.isArray(data?.students) ? data.students : [];
 
   const serialized = students.map((s) => ({
     id: s.id,

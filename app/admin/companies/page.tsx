@@ -9,7 +9,7 @@ export default async function AdminCompaniesPage() {
   if (!user || user.role !== "ADMIN") return null;
 
   const { data } = await serverApi("/admin/companies");
-  const companies = data.companies;
+  const companies = Array.isArray(data?.companies) ? data.companies : [];
 
   const serialized = companies.map((c) => ({
     id: c.id,

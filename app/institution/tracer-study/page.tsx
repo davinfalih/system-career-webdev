@@ -13,7 +13,8 @@ export default async function TracerStudyPage() {
   if (!user || !user.institutionId) return null;
 
   const { data } = await serverApi("/institution/tracer-study");
-  const { records, applications } = data;
+  const records = Array.isArray(data?.records) ? data.records : [];
+  const applications = Array.isArray(data?.applications) ? data.applications : [];
 
   const latest = records[records.length - 1];
   const donutData = latest

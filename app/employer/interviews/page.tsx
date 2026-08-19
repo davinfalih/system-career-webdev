@@ -12,7 +12,7 @@ export default async function InterviewsPage() {
   if (!user || !user.companyId) return null;
 
   const { data } = await serverApi("/employer/interviews");
-  const interviews = data.interviews;
+  const interviews = Array.isArray(data?.interviews) ? data.interviews : [];
 
   const upcoming = interviews.filter((i) => new Date(i.scheduledAt) > new Date());
   const past = interviews.filter((i) => new Date(i.scheduledAt) <= new Date());

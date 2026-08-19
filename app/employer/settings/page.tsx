@@ -9,7 +9,7 @@ export default async function EmployerSettingsPage() {
   if (!user || !user.companyId) return null;
 
   const { data } = await serverApi("/company/me");
-  const company = data.company;
+  const company = data?.company ?? null;
   if (!company) return null;
 
   return (

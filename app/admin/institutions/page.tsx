@@ -9,7 +9,7 @@ export default async function AdminInstitutionsPage() {
   if (!user || user.role !== "ADMIN") return null;
 
   const { data } = await serverApi("/admin/institutions");
-  const institutions = data.institutions;
+  const institutions = Array.isArray(data?.institutions) ? data.institutions : [];
 
   const serialized = institutions.map((i) => ({
     id: i.id,

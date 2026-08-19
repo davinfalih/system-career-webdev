@@ -55,11 +55,11 @@ export default async function StudentDashboardPage() {
   const profile = user.profile;
 
   const { data: appsData } = await serverApi("/applications/my");
-  const applications = appsData.applications;
+  const applications = Array.isArray(appsData?.applications) ? appsData.applications : [];
   const { data: bookmarksData } = await serverApi("/bookmarks/my");
-  const bookmarks = bookmarksData.bookmarks;
+  const bookmarks = Array.isArray(bookmarksData?.bookmarks) ? bookmarksData.bookmarks : [];
   const { data: jobsData } = await apiFetch("/jobs");
-  const allJobs = jobsData.jobs;
+  const allJobs = Array.isArray(jobsData?.jobs) ? jobsData.jobs : [];
 
   let userSkills: string[] = [];
   try {

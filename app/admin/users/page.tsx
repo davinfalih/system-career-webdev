@@ -9,7 +9,7 @@ export default async function AdminUsersPage() {
   if (!user || user.role !== "ADMIN") return null;
 
   const { data } = await serverApi("/admin/users");
-  const users = data.users;
+  const users = Array.isArray(data?.users) ? data.users : [];
 
   const serialized = users.map((u) => ({
     id: u.id,

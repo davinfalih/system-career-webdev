@@ -77,9 +77,9 @@ async function getData() {
   const { data } = await apiFetch("/home");
 
   return {
-    companies: data.companies,
-    institutions: data.institutions,
-    jobs: data.recentJobs,
+    companies: Array.isArray(data?.companies) ? data.companies : [],
+    institutions: Array.isArray(data?.institutions) ? data.institutions : [],
+    jobs: Array.isArray(data?.recentJobs) ? data.recentJobs : [],
     testimonials: [
       { name: "Rina Maharani", role: "Lulusan SMK, sekarang UI/UX Designer", text: "Berkat analisis CV AI-nya, aku tahu skill apa yang kurang dan akhirnya diterima magang di agency impianku!", initials: "RM" },
       { name: "Dimas Prasetyo", role: "Mahasiswa Teknik Informatika", text: "Match score-nya akurat banget. Dalam 2 minggu aku sudah dapat 3 undangan wawancara dari rekomendasi platform ini.", initials: "DP" },

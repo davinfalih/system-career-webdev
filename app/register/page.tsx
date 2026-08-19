@@ -7,7 +7,7 @@ export const metadata = { title: "Daftar" };
 
 export default async function RegisterPage() {
   const { data } = await apiFetch("/meta/institutions");
-  const institutions = data.institutions;
+  const institutions = Array.isArray(data?.institutions) ? data.institutions : [];
 
   return (
     <AuthShell>

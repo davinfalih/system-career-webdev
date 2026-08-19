@@ -14,7 +14,7 @@ export default async function NotificationsPage() {
   if (!user) return null;
 
   const { data: notificationsData } = await serverApi("/notifications/my");
-  const notifications = notificationsData.notifications;
+  const notifications = Array.isArray(notificationsData?.notifications) ? notificationsData.notifications : [];
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 

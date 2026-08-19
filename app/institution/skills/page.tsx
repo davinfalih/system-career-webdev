@@ -12,7 +12,8 @@ export default async function InstitutionSkillsPage() {
   if (!user || !user.institutionId) return null;
 
   const { data } = await serverApi("/institution/skills");
-  const { skills, jobs } = data;
+  const skills = Array.isArray(data?.skills) ? data.skills : [];
+  const jobs = Array.isArray(data?.jobs) ? data.jobs : [];
 
   const topSkills = skills.slice(0, 10);
 

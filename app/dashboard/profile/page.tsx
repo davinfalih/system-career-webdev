@@ -9,9 +9,9 @@ export default async function ProfilePage() {
   if (!user) return null;
 
   const { data: institutionsData } = await apiFetch("/meta/institutions");
-  const institutions = institutionsData.institutions;
+  const institutions = Array.isArray(institutionsData?.institutions) ? institutionsData.institutions : [];
   const { data: skillsData } = await apiFetch("/meta/skills");
-  const skills = skillsData.skills;
+  const skills = Array.isArray(skillsData?.skills) ? skillsData.skills : [];
 
   const profile = user.profile;
 

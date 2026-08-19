@@ -22,7 +22,10 @@ export default async function InstitutionDashboardPage() {
   if (!user || !user.institutionId) return null;
 
   const { data } = await serverApi("/institution/stats");
-  const { records, students, applications, topSkills } = data;
+  const records = Array.isArray(data?.records) ? data.records : [];
+  const students = Array.isArray(data?.students) ? data.students : [];
+  const applications = Array.isArray(data?.applications) ? data.applications : [];
+  const topSkills = Array.isArray(data?.topSkills) ? data.topSkills : [];
 
   const latest = records[records.length - 1];
   const employmentRate = latest && latest.totalGraduates > 0

@@ -12,7 +12,7 @@ export default async function BookmarksPage() {
   if (!user) return null;
 
   const { data: bookmarksData } = await serverApi("/bookmarks/my");
-  const bookmarks = bookmarksData.bookmarks;
+  const bookmarks = Array.isArray(bookmarksData?.bookmarks) ? bookmarksData.bookmarks : [];
 
   return (
     <div className="space-y-6">

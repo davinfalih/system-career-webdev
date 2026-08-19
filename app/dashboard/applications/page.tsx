@@ -32,7 +32,7 @@ export default async function ApplicationsPage() {
   if (!user) return null;
 
   const { data: appsData } = await serverApi("/applications/my");
-  const applications = appsData.applications;
+  const applications = Array.isArray(appsData?.applications) ? appsData.applications : [];
 
   const counts: Record<string, number> = {};
   applications.forEach((a) => {

@@ -32,10 +32,10 @@ export default async function AdminMonetizationPage() {
   if (!user || user.role !== "ADMIN") return null;
 
   const { data } = await serverApi("/admin/monetization");
-  const totalCompanies = data.totalCompanies;
-  const totalInstitutions = data.totalInstitutions;
-  const totalUsers = data.totalUsers;
-  const totalJobs = data.totalJobs;
+  const totalCompanies = data?.totalCompanies ?? 0;
+  const totalInstitutions = data?.totalInstitutions ?? 0;
+  const totalUsers = data?.totalUsers ?? 0;
+  const totalJobs = data?.totalJobs ?? 0;
 
   return (
     <div className="space-y-6">

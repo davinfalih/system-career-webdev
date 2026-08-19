@@ -9,7 +9,7 @@ export default async function AdminSkillsPage() {
   if (!user || user.role !== "ADMIN") return null;
 
   const { data } = await serverApi("/admin/skills");
-  const skills = data.skills;
+  const skills = Array.isArray(data?.skills) ? data.skills : [];
   const serialized = skills.map((s) => ({
     id: s.id,
     name: s.name,

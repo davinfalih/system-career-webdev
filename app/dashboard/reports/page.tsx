@@ -17,9 +17,9 @@ export default async function ReportsPage() {
   }
 
   const { data: appsData } = await serverApi("/applications/my");
-  const applications = appsData.applications;
+  const applications = Array.isArray(appsData?.applications) ? appsData.applications : [];
   const { data: bookmarksData } = await serverApi("/bookmarks/my");
-  const bookmarks = bookmarksData.bookmarks;
+  const bookmarks = Array.isArray(bookmarksData?.bookmarks) ? bookmarksData.bookmarks : [];
 
   const recommendations = recommendCareers(skills);
   const profile = user.profile;
