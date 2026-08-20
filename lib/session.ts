@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { jwtVerify } from "jose";
+import { decodeJwt } from "jose";
 
 export type Role = "STUDENT" | "COMPANY" | "INSTITUTION" | "ADMIN";
 
@@ -11,8 +11,6 @@ export type SessionUser = {
   name: string;
 };
 
-const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET ?? "jobmatch-dev-secret-change-in-production");
-
 export async function getSessionToken(): Promise<string | null> {
   const store = await cookies();
   return store.get("token")?.value ?? null;
@@ -22,8 +20,8 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   const token = await getSessionToken();
   if (!token) return null;
   try {
-    const { payload } = await jwtVerify(token, secret);
-    const id = payload.sub;
+    const payload = decodeJwt(token);
+    const id = typeof payload.sub === "string" ? payload.sub : undefined;
     if (!id) return null;
     return {
       id,
@@ -41,7 +39,7 @@ export async function getCurrentUser() {
   if (!session) return null;
 
   const token = await getSessionToken();
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+  const baseUrl = (process.env.NEXT_PUBLIC_API_URL ?? process.env.BACKEND_URL ?? "").replace(/\/$/, "");
 
   try {
     const res = await fetch(`${baseUrl}/api/auth/me`, {
