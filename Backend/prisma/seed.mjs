@@ -158,7 +158,7 @@ async function main() {
 
   const hashed = await pw();
   const adminUser = await prisma.user.create({
-    data: { name: "Super Admin", email: "admin@career.com", passwordHash: hashed, role: "ADMIN", verified: true },
+    data: { name: "Super Admin", email: "admin@jobmatch.id", passwordHash: hashed, role: "ADMIN", verified: true },
   });
 
   const institutionUsers = [];
@@ -300,7 +300,7 @@ async function main() {
   console.log("  Student:  student@career.com");
   console.log("  Company:  hrd@nusantara-tech.com");
   console.log("  Institution: admin@smknegeri1jakarta.id");
-  console.log("  Admin:    admin@career.com");
+  console.log("  Admin:    admin@jobmatch.id");
 }
 
 main()
