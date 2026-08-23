@@ -78,7 +78,7 @@ export class AuthController {
     const frontend = this.config.get('FRONTEND_URL') ?? 'http://localhost:3000';
     if (provider === 'google') {
       const params = new URLSearchParams({
-        client_id: this.config.get('GOOGLE_CLIENT_ID') ?? '',
+        client_id: this.config.get('GOOGLE_CLIENT_ID') || process.env.GOOGLE_CLIENT_ID || '',
         redirect_uri: `${frontend}/api/auth/oauth/google/callback`,
         response_type: 'code',
         scope: 'openid email profile',
@@ -87,7 +87,7 @@ export class AuthController {
       res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`);
     } else if (provider === 'linkedin') {
       const params = new URLSearchParams({
-        client_id: this.config.get('LINKEDIN_CLIENT_ID') ?? '',
+        client_id: this.config.get('LINKEDIN_CLIENT_ID') || process.env.LINKEDIN_CLIENT_ID || '',
         redirect_uri: `${frontend}/api/auth/oauth/linkedin/callback`,
         response_type: 'code',
         scope: 'openid profile email',
@@ -108,8 +108,8 @@ export class AuthController {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           code,
-          client_id: this.config.get('GOOGLE_CLIENT_ID') ?? '',
-          client_secret: this.config.get('GOOGLE_CLIENT_SECRET') ?? '',
+          client_id: this.config.get('GOOGLE_CLIENT_ID') || process.env.GOOGLE_CLIENT_ID || '',
+          client_secret: this.config.get('GOOGLE_CLIENT_SECRET') || process.env.GOOGLE_CLIENT_SECRET || '',
           redirect_uri: `${frontend}/api/auth/oauth/google/callback`,
           grant_type: 'authorization_code',
         }),
@@ -143,8 +143,8 @@ export class AuthController {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           code,
-          client_id: this.config.get('LINKEDIN_CLIENT_ID') ?? '',
-          client_secret: this.config.get('LINKEDIN_CLIENT_SECRET') ?? '',
+          client_id: this.config.get('LINKEDIN_CLIENT_ID') || process.env.LINKEDIN_CLIENT_ID || '',
+          client_secret: this.config.get('LINKEDIN_CLIENT_SECRET') || process.env.LINKEDIN_CLIENT_SECRET || '',
           redirect_uri: `${frontend}/api/auth/oauth/linkedin/callback`,
           grant_type: 'authorization_code',
         }),
