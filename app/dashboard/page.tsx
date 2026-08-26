@@ -3,7 +3,9 @@ import {
   ArrowRight,
   Bookmark,
   CheckCircle2,
+  Crown,
   FileText,
+  GraduationCap,
   Send,
   Sparkles,
   Target,
@@ -272,6 +274,39 @@ export default async function StudentDashboardPage() {
               Status mahasiswa terverifikasi
             </div>
           )}
+
+          {/* Pricing info */}
+          <div className="card p-6">
+            <div className="flex items-center gap-2">
+              <div className="inline-flex rounded-xl bg-brand-50 p-2 text-brand-600">
+                <GraduationCap className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-bold">Paket Aktif</h3>
+                <p className="text-xs text-zinc-500">Pelajar</p>
+              </div>
+            </div>
+            <div className="mt-4 rounded-xl bg-zinc-50 p-4">
+              <p className="text-sm font-semibold text-zinc-900">Gratis</p>
+              <p className="mt-1 text-xs text-zinc-500">Profil & CV dasar, AI rekomendasi, apply tanpa batas</p>
+            </div>
+            <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
+              <div className="flex items-center gap-1.5">
+                <Crown className="h-4 w-4 text-amber-600" />
+                <p className="text-xs font-semibold text-amber-800">Upgrade untuk Perusahaan</p>
+              </div>
+              <p className="mt-1 text-xs text-amber-700">Posting lowongan, ATS & match score, analitik pelamar</p>
+              <p className="mt-1 text-xs font-bold text-amber-800">Rp 299rb/bln</p>
+            </div>
+            <div className="mt-3 rounded-xl border border-sky-200 bg-sky-50 p-4">
+              <div className="flex items-center gap-1.5">
+                <GraduationCap className="h-4 w-4 text-sky-600" />
+                <p className="text-xs font-semibold text-sky-800">Upgrade untuk Institusi</p>
+              </div>
+              <p className="mt-1 text-xs text-sky-700">Verifikasi mahasiswa, tracer study, laporan PDF</p>
+              <p className="mt-1 text-xs font-bold text-sky-800">Rp 99rb/bln</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   Post,
   Req,
+  Res,
   UnauthorizedException,
   UploadedFile,
   UseGuards,
@@ -14,7 +15,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { PrismaService } from '../prisma/prisma.service';
 import { parseCvText, ParsedCV } from '../ai-libs/parseCv';
-import { buildATSResume } from '../ai-libs/cvBuilder';
 import { recommendCareers, analyzeSkillGap, aiRecommendations } from '../ai-libs/recommend';
 import { checkATS } from '../ai-libs/ats';
 import { SKILL_MASTER } from '../ai-libs/skills';
@@ -74,11 +74,16 @@ export class AiController {
 
   @Post('cv/generate')
   @UseGuards(JwtAuthGuard)
-  async generate(@Req() req: any, @Body() body: GenerateCvDto) {
+  async generate(@Req() req: any, @Body() body: GenerateCvDto, @Res() res: any) {
     if (!req.user) throw new UnauthorizedException('Belum login');
     if (!body.name || body.name.length < 2) throw new BadRequestException('Data tidak lengkap');
-    const text = buildATSResume(body);
-    return { text };
+
+    const { generateCvPdfBuffer } = await import('../ai-libs/cvPdf');
+    const buffer = await generateCvPdfBuffer(body);
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="CV-${body.name.replace(/\s+/g, '-')}.pdf"`);
+    res.send(buffer);
   }
 
   @Post('cv/parse')

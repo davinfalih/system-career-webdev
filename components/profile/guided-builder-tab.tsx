@@ -19,7 +19,8 @@ export function GuidedBuilderTab({
   const { showToast } = useToast();
   const [step, setStep] = useState(1);
   const [generating, setGenerating] = useState(false);
-  const [generatedCv, setGeneratedCv] = useState("");
+  const [cvPdfBlob, setCvPdfBlob] = useState<Blob | null>(null);
+  const [cvPreviewText, setCvPreviewText] = useState("");
   const [selectedSkills, setSelectedSkills] = useState<string[]>(initialData.profile?.skills ?? []);
   const [skillInput, setSkillInput] = useState("");
 
@@ -73,34 +74,52 @@ export function GuidedBuilderTab({
         projects,
         skills: selectedSkills.map((s) => ({ name: s })),
       };
-      const res = await fetch("/api/cv/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        showToast(data.error ?? "Gagal generate CV", "error");
+
+      const [pdfRes] = await Promise.all([
+        fetch("/api/cv/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }),
+        fetch("/api/profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            headline: form.headline,
+            bio: form.summary,
+            location: form.location,
+            phone: form.phone,
+            skills: selectedSkills,
+            education: form.school ? [{ school: form.school, degree: form.degree, major: form.major, endYear: Number(form.gradYear) }] : [],
+            experiences,
+            projects,
+          }),
+        }),
+      ]);
+
+      if (!pdfRes.ok) {
+        showToast("Gagal generate CV", "error");
         return;
       }
-      setGeneratedCv(data.text);
 
-      await fetch("/api/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          headline: form.headline,
-          bio: form.summary,
-          location: form.location,
-          phone: form.phone,
-          skills: selectedSkills,
-          education: form.school ? [{ school: form.school, degree: form.degree, major: form.major, endYear: Number(form.gradYear) }] : [],
-          experiences,
-          projects,
-        }),
-      });
+      const pdfBlob = await pdfRes.blob();
+      setCvPdfBlob(pdfBlob);
+
+      const preview = [
+        form.name.toUpperCase(),
+        form.headline,
+        [form.email, form.phone, form.location].filter(Boolean).join(" | "),
+        "",
+        form.summary && `RINGKASAN\n${form.summary}`,
+        selectedSkills.length && `KEAHLIAN\n${selectedSkills.join(", ")}`,
+        form.school && `PENDIDIKAN\n${[form.degree, form.major && `(${form.major})`, form.school, form.gradYear && `- ${form.gradYear}`].filter(Boolean).join(" ")}`,
+        experiences.length && `PENGALAMAN\n${experiences.map(e => `${e.role}${e.company ? ` - ${e.company}` : ""}${e.description ? `\n${e.description}` : ""}`).join("\n\n")}`,
+        projects.length && `PROYEK\n${projects.map(p => `${p.name}${p.description ? `\n${p.description}` : ""}`).join("\n\n")}`,
+      ].filter(Boolean).join("\n");
+      setCvPreviewText(preview);
+
       setStep(4);
-      showToast("CV berhasil dibuat! Berikut rekomendasi untukmu.");
+      showToast("CV berhasil dibuat!");
       router.refresh();
     } catch {
       showToast("Gagal generate CV", "error");
@@ -110,16 +129,16 @@ export function GuidedBuilderTab({
   }
 
   async function copyCv() {
-    await navigator.clipboard.writeText(generatedCv);
+    await navigator.clipboard.writeText(cvPreviewText);
     showToast("CV disalin ke clipboard", "info");
   }
 
   function downloadCv() {
-    const blob = new Blob([generatedCv], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
+    if (!cvPdfBlob) return;
+    const url = URL.createObjectURL(cvPdfBlob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `CV-${form.name.replace(/\s+/g, "-")}.txt`;
+    a.download = `CV-${form.name.replace(/\s+/g, "-")}.pdf`;
     a.click();
     URL.revokeObjectURL(url);
     showToast("CV berhasil diunduh");
@@ -356,21 +375,21 @@ export function GuidedBuilderTab({
         </div>
       )}
 
-      {step === 4 && generatedCv && (
+      {step === 4 && cvPdfBlob && (
         <div className="space-y-5 animate-fade-up">
           <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700">
             <CheckCircle2 className="h-5 w-5 shrink-0" />
-            CV berstandar ATS berhasil dibuat. Download atau salin, lalu lamar lowongan impianmu!
+            CV berstandar ATS berhasil dibuat. Download PDF atau salin teksnya!
           </div>
 
           <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
-            <pre className="max-h-96 overflow-y-auto whitespace-pre-wrap font-sans text-sm text-zinc-800">{generatedCv}</pre>
+            <pre className="max-h-96 overflow-y-auto whitespace-pre-wrap font-sans text-sm text-zinc-800">{cvPreviewText}</pre>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <button onClick={downloadCv} className="btn-primary flex-1">
               <Download className="h-4 w-4" />
-              Download CV (.txt)
+              Download CV (.pdf)
             </button>
             <button onClick={copyCv} className="btn-secondary flex-1">
               <Copy className="h-4 w-4" />

@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: "/", label: "Beranda" },
   { href: "/jobs", label: "Lowongan" },
   { href: "/#how-it-works", label: "Cara Kerja" },
+  { href: "/#pricing", label: "Paket" },
   { href: "/#companies", label: "Perusahaan" },
   { href: "/#contact", label: "Kontak" },
 ];

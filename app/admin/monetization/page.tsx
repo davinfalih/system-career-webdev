@@ -2,30 +2,9 @@ import { Banknote, Building2, GraduationCap, Sparkles, Users } from "lucide-reac
 import { getCurrentUser } from "@/lib/session";
 import { serverApi } from "@/lib/api";
 import { StatCard } from "@/components/ui/stat-card";
-import { Badge } from "@/components/ui/badge";
+import { PricingTiers } from "@/components/pricing/pricing-tiers";
 
 export const metadata = { title: "Monetisasi" };
-
-const PRICE_TIERS = [
-  {
-    name: "Pelajar",
-    price: "Gratis",
-    features: ["Profil & CV dasar", "AI rekomendasi", "Apply tanpa batas", "Tracer study"],
-    popular: false,
-  },
-  {
-    name: "Perusahaan",
-    price: "Rp 299rb/bln",
-    features: ["10 postingan lowongan", "ATS & match score", "Analitik pelamar", "Wawancara terjadwal"],
-    popular: true,
-  },
-  {
-    name: "Institusi",
-    price: "Rp 99rb/bln",
-    features: ["Verifikasi mahasiswa", "Tracer study", "Top skills industri", "Laporan PDF"],
-    popular: false,
-  },
-];
 
 export default async function AdminMonetizationPage() {
   const user = await getCurrentUser();
@@ -56,28 +35,7 @@ export default async function AdminMonetizationPage() {
           <Banknote className="h-5 w-5 text-brand-500" />
           <h2 className="font-bold">Paket Berlangganan</h2>
         </div>
-        <div className="grid gap-4 lg:grid-cols-3">
-          {PRICE_TIERS.map((tier) => (
-            <div
-              key={tier.name}
-              className={`card relative p-6 ${tier.popular ? "border-brand-300 ring-2 ring-brand-100" : ""}`}
-            >
-              {tier.popular && (
-                <Badge variant="default" className="absolute -top-3 left-6">Paling Populer</Badge>
-              )}
-              <h3 className="font-bold text-zinc-900">{tier.name}</h3>
-              <p className="mt-2 text-2xl font-extrabold text-zinc-900">{tier.price}</p>
-              <ul className="mt-4 space-y-2 text-sm text-zinc-600">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <PricingTiers />
       </div>
 
       <div className="card p-6">

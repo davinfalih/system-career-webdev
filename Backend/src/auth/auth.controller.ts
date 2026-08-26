@@ -76,10 +76,13 @@ export class AuthController {
   @Get('auth/oauth/:provider')
   async oauthStart(@Param('provider') provider: string, @Res() res: any) {
     const frontend = this.config.get('FRONTEND_URL') ?? 'http://localhost:3000';
+    console.log(`[OAuth] FRONTEND_URL=${frontend}, provider=${provider}`);
     if (provider === 'google') {
+      const redirectUri = `${frontend}/api/auth/oauth/google/callback`;
+      console.log(`[OAuth] Google redirect_uri=${redirectUri}`);
       const params = new URLSearchParams({
         client_id: this.config.get('GOOGLE_CLIENT_ID') || process.env.GOOGLE_CLIENT_ID || '',
-        redirect_uri: `${frontend}/api/auth/oauth/google/callback`,
+        redirect_uri: redirectUri,
         response_type: 'code',
         scope: 'openid email profile',
         access_type: 'online',

@@ -21,6 +21,8 @@ import { PublicHeader } from "@/components/layout/public-header";
 import { PublicFooter } from "@/components/layout/public-footer";
 import { apiFetch } from "@/lib/api";
 import { JobCard } from "@/components/jobs/job-card";
+import { PricingTiers } from "@/components/pricing/pricing-tiers";
+import { Banknote } from "lucide-react";
 
 const FEATURES = [
   {
@@ -316,6 +318,27 @@ export default async function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section id="pricing" className="py-20">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-700">
+              <Banknote className="h-3.5 w-3.5" />
+              Paket Berlangganan
+            </div>
+            <h2 className="text-3xl font-extrabold sm:text-4xl">
+              Pilih Paket yang <span className="text-gradient">Sesuai Kebutuhanmu</span>
+            </h2>
+            <p className="mt-4 text-zinc-600">
+              Mulai gratis sebagai pelajar, atau upgrade untuk fitur lengkap bagi perusahaan dan institusi.
+            </p>
+          </div>
+          <div className="mt-12">
+            <PricingTiers />
           </div>
         </div>
       </section>
