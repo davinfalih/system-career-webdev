@@ -191,8 +191,8 @@ export class AiController {
       };
     } catch (error: any) {
       if (error instanceof BadRequestException) throw error;
-      console.error('CV parse error:', error);
-      throw new BadRequestException('Gagal memproses CV');
+      console.error('CV parse error:', error?.message ?? error);
+      throw new BadRequestException('Gagal memproses CV: ' + (error?.message ?? 'Unknown error'));
     }
   }
 }
