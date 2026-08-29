@@ -109,15 +109,8 @@ export class AiController {
     try {
       const buffer = file.buffer;
       let text = '';
-      try {
-        const { PDFParse } = await import('pdf-parse');
-        const parser = new PDFParse({ data: buffer });
-        const result = await parser.getText();
-        await parser.destroy().catch(() => {});
-        text = result.text ?? '';
-      } catch {
-        text = buffer.toString('utf-8');
-      }
+      const { extractPdfText } = await import('../ai-libs/pdfText');
+      text = await extractPdfText(buffer);
 
       if (!text || text.trim().length < 50) {
         throw new BadRequestException(
