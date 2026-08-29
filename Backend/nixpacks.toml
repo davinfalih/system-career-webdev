@@ -4,7 +4,7 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.build]
-cmds = ["npm install", "npm run build"]
+cmds = ["npm install", "npx prisma db push --schema prisma/schema.prisma --skip-generate", "npm run build"]
 
 [start]
 cmd = "node dist/main.js"
