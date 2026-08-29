@@ -135,8 +135,8 @@ export class AiController {
         data: {
           userId: user.id,
           filename: file.originalname ?? 'cv.pdf',
-          text,
-          analysis: JSON.stringify(parsed),
+          text: text.slice(0, 50000),
+          analysis: JSON.stringify(parsed).slice(0, 50000),
         },
       });
 

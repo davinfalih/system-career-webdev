@@ -59,8 +59,8 @@ model CV {
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   filename  String
-  text      String?
-  analysis  String?
+  text      String?  @db.LongText
+  analysis  String?  @db.LongText
   createdAt DateTime @default(now())
 }
 
