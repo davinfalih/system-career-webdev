@@ -32,6 +32,11 @@ function safeArray(value: string | null): string[] {
   }
 }
 
+function jsonOrKeep(arr: unknown[], fallback: string | null | undefined): string | null {
+  if (arr.length) return JSON.stringify(arr).slice(0, 50000);
+  return fallback ?? null;
+}
+
 function skillCoverage(parsed: ParsedCV) {
   const names = parsed.skills.map((s) => s.name.toLowerCase());
   const known = SKILL_MASTER.filter((s) => names.includes(s.name.toLowerCase())).length;
@@ -151,11 +156,11 @@ export class AiController {
         await this.prisma.studentProfile.update({
           where: { id: profile.id },
           data: {
-            skills: JSON.stringify(merged),
-            education: parsed.education.length ? JSON.stringify(parsed.education) : profile.education,
-            experiences: parsed.experiences.length ? JSON.stringify(parsed.experiences) : profile.experiences,
-            projects: parsed.projects.length ? JSON.stringify(parsed.projects) : profile.projects,
-            aiReview: JSON.stringify(parsed),
+            skills: JSON.stringify(merged).slice(0, 50000),
+            education: jsonOrKeep(parsed.education, profile.education),
+            experiences: jsonOrKeep(parsed.experiences, profile.experiences),
+            projects: jsonOrKeep(parsed.projects, profile.projects),
+            aiReview: JSON.stringify(parsed).slice(0, 50000),
           },
         });
       }

@@ -39,17 +39,17 @@ model StudentProfile {
   id          String   @id @default(cuid())
   userId      String   @unique
   user        User     @relation(fields: [userId], references: [id])
-  headline    String?
-  bio         String?
-  location    String?
-  phone       String?
-  skills      String?
-  education   String?
-  experiences String?
-  projects    String?
+  headline    String?  @db.LongText
+  bio         String?  @db.LongText
+  location    String?  @db.LongText
+  phone       String?  @db.LongText
+  skills      String?  @db.LongText
+  education   String?  @db.LongText
+  experiences String?  @db.LongText
+  projects    String?  @db.LongText
   cvScore     Int      @default(0)
   atsScore    Int      @default(0)
-  aiReview    String?
+  aiReview    String?  @db.LongText
   completed   Boolean  @default(false)
   updatedAt   DateTime @updatedAt
 }
