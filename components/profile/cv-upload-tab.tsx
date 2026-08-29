@@ -51,9 +51,14 @@ export function CvUploadTab({ initialData }: { initialData: ProfileWorkspaceData
 
     try {
       const res = await fetch("/api/cv/parse", { method: "POST", body: formData });
-      const data = await res.json();
+      let data: any = {};
+      try {
+        data = await res.json();
+      } catch {
+        data = { error: `HTTP ${res.status} - respons tidak valid` };
+      }
       if (!res.ok) {
-        showToast(data.error ?? "Gagal menganalisis CV", "error");
+        showToast(data.message ?? data.error ?? `Gagal menganalisis CV (${res.status})`, "error");
         return;
       }
       setParsed(data.parsed);

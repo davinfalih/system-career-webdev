@@ -6,11 +6,13 @@ import express from 'express';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { AllExceptionsFilter } from './common/all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+  app.useGlobalFilters(new AllExceptionsFilter());
   app.use(cookieParser());
   app.use(express.text({ type: 'text/plain', limit: '5mb' }));
   app.enableCors({

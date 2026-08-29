@@ -10,9 +10,6 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
-  ParseFilePipe,
-  MaxFileSizeValidator,
-  FileTypeValidator,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt.guard';
@@ -94,25 +91,23 @@ export class AiController {
   @UseInterceptors(FileInterceptor('file'))
   async parse(
     @Req() req: any,
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024, message: 'File terlalu besar (maksimal 5MB)' }),
-        ],
-      }),
-    )
-    file: Express.Multer.File | undefined,
+    @UploadedFile() file: Express.Multer.File | undefined,
     @Body() body: any,
   ) {
     if (!req.user) throw new UnauthorizedException('Belum login');
     if (req.user.role !== 'STUDENT') {
       throw new ForbiddenException('Hanya akun mahasiswa');
     }
-    if (!file?.buffer) throw new BadRequestException('File tidak ditemukan');
+    console.log('[CV parse] file diterima:', file?.originalname, 'size:', file?.size);
+    if (!file?.buffer) {
+      console.log('[CV parse] ERROR: file buffer kosong');
+      throw new BadRequestException('File tidak ditemukan. Coba lagi.');
+    }
 
     // Periksa apakah itu benar-benar PDF berdasarkan signature %PDF
     const isPdf = file.buffer.length > 4 && file.buffer.subarray(0, 4).toString('latin1') === '%PDF';
     if (!isPdf) {
+      console.log('[CV parse] ERROR: bukan PDF, signature:', file.buffer.subarray(0, 4).toString('latin1'));
       throw new BadRequestException('File bukan PDF yang valid');
     }
 
